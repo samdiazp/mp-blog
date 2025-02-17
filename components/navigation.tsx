@@ -1,6 +1,10 @@
+"use client";
+import { useAuth } from "@/context";
 import Link from "next/link";
 
 export function Navigation() {
+  const { isAuthenticated } = useAuth();
+
   return (
     <nav className="border-b">
       <div className="container mx-auto px-4 py-6">
@@ -21,6 +25,13 @@ export function Navigation() {
               Contacto
             </Link>
           </li>
+          {isAuthenticated && (
+            <li>
+              <Link href="/create" className="hover:text-gray-600">
+                Crear POST
+              </Link>
+            </li>
+          )}
         </ul>
       </div>
     </nav>

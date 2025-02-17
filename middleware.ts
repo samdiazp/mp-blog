@@ -7,7 +7,6 @@ export function middleware(request: NextRequest) {
   if (request.nextUrl.pathname === "/create") {
     // Get the authentication token from the cookies
     const isAuthenticated = cookies().get("auth_token")?.value;
-    console.log({ isAuthenticated });
 
     if (!isAuthenticated) {
       // Redirect to login if not authenticated

@@ -6,9 +6,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/context";
+import { UploadDropzone } from "@/components/upload-thing";
 
 export default function CreatePost() {
   const router = useRouter();
+  const { setAuth } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -24,7 +27,7 @@ export default function CreatePost() {
 
   async function handleLogout() {
     await fetch("/api/auth/logout", { method: "POST" });
-    router.push("/login");
+    setAuth(false);
     router.refresh();
   }
 
@@ -47,27 +50,20 @@ export default function CreatePost() {
             <Textarea
               id="excerpt"
               placeholder="Escribe un extracto corto"
-              className="h-20"
-              required
+              className="h-full"
             />
           </div>
           <div className="space-y-2">
             <Label htmlFor="content">Contenido</Label>
             <Textarea
               id="content"
-              placeholder="Escribe tu contenido"
-              className="h-64"
-              required
+              placeholder="Escribe el contenido del post"
+              className="h-full"
             />
           </div>
           <div className="space-y-2">
             <Label htmlFor="image">URL de la imagen de portada</Label>
-            <Input
-              id="image"
-              type="url"
-              placeholder="Ingresa la URL de la imagen"
-              required
-            />
+            <UploadDropzone endpoint="imageUploader" />
           </div>
           <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading ? "Creando..." : "Crear post"}

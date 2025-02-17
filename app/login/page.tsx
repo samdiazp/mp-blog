@@ -5,9 +5,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/context";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { setAuth } = useAuth();
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -33,6 +35,7 @@ export default function LoginPage() {
 
       if (data.success) {
         router.push("/create");
+        setAuth(true);
         router.refresh(); // Refresh the page to update server components
       } else {
         setError(data.message || "Invalid credentials");
